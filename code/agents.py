@@ -1,12 +1,9 @@
 import asyncio
-from autogen_core import RoutedAgent, message_handler, MessageContext, DefaultTopicId
+from autogen_core import RoutedAgent, message_handler, MessageContext, DefaultTopicId, type_subscription
+from datetime import datetime
 from registered_messages import StockPriceUpdate, ArbitrageSignal, DraftReport, ApproveReport, FetchTick
-import json
-from pathlib import Path
-# ---------------------------
-# Agents
-# ---------------------------
 
+#@default_subscription (FetchTick)
 class PriceFetcherAgent(RoutedAgent):
     def __init__(self, stock_list):
         super().__init__("price-fetcher")
@@ -30,7 +27,7 @@ class PriceFetcherAgent(RoutedAgent):
                 ),
                 ctx.topic_id or DefaultTopicId()
             )
-
+#@type_subscription (StockPriceUpdate)
 class AnalyzerAgent(RoutedAgent):
     def __init__(self, threshold=0.5):
         super().__init__("analyzer")
@@ -54,7 +51,8 @@ class AnalyzerAgent(RoutedAgent):
                 ctx.topic_id or DefaultTopicId()
             )
 
-
+#@default_subscription (ArbitrageSignal)
+#@default_subscription (ApproveReport)
 class ReportAgent(RoutedAgent):
     def __init__(self):
         super().__init__("reporter")
