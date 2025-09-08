@@ -11,7 +11,7 @@ class StockPriceUpdate(BaseModel):
     company: str
     nse_price: float
     bse_price: float
-    timestamp: str
+    timestamp: datetime
 
 
 class ArbitrageSignal(BaseModel):
@@ -19,7 +19,7 @@ class ArbitrageSignal(BaseModel):
     nse_price: float
     bse_price: float
     arbitrage: float
-    timestamp: str
+    timestamp: datetime
 
 
 class ReportDraft(BaseModel):
